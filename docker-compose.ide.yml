@@ -40,6 +40,7 @@ services:
   secret_manager:
     container_name: "secretmanager"
     image: pegasus-devops.io/secretmanager:0.0.1
+    restart: unless-stopped
     build:
       context: oci/secrets/
       args:
@@ -70,7 +71,6 @@ services:
       - $PWD/secret-manager:/bee/.topsecret/gitservice.api.token:ro
     networks:
       - ide_pipeline_net
-    restart: always
     # depends_on:
       # - xxx
 
@@ -84,4 +84,4 @@ volumes:
     driver_opts:
       type: "none"
       o: "bind,rw"
-      device: "/mnt/workspace/portus/secrets"
+      device: "${SECRETS_HOME}"
