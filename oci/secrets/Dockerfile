@@ -63,6 +63,7 @@ RUN chmod +x ${BUMBLEBEE_HOME_INSIDE_CONTAINER}/*.sh
 VOLUME /bee/.workspace
 VOLUME /bee/.secrets
 
+USER ${BUMBLEBEE_LX_USERNAME}
 WORKDIR /bee/.workspace
 
 # CMD ["/bin/bash"]
