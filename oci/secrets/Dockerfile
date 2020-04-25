@@ -64,6 +64,7 @@ VOLUME /bee/.workspace
 VOLUME /bee/.secrets
 
 USER ${BUMBLEBEE_LX_USERNAME}
+USER root
 WORKDIR /bee/.workspace
 
 # CMD ["/bin/bash"]
