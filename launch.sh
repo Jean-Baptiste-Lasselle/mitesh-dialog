@@ -33,7 +33,7 @@ sed -i "s#SECRETS_HOME_JINJA2_VAR#${SECRETS_HOME}#g" ./.env
 
 
 
-docker system prune -f --all && docker-compose -f ./docker-compose.ide.yml down --rmi all
+docker system prune -f --all && docker-compose -f ./docker-compose.ide.yml down --rmi all && docker volume rm $(pwd|awk -F '/' '{print $NF}')_secrets
 
 
 mkdir -p $(pwd)/secret-manager/
