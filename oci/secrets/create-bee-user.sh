@@ -16,7 +16,7 @@ echo "VERIF BUMBLEBEE_LX_GROUPNAME=[${BUMBLEBEE_LX_GROUPNAME}] "
 # --------------------------------------------------------------- #
 
 groupadd -g ${OPERATOR_GID} -r ${BUMBLEBEE_LX_GROUPNAME} || exit 3
-useradd -m -u ${OPERATOR_UID} -r -g ${BUMBLEBEE_LX_USERNAME} ${BUMBLEBEE_LX_GROUPNAME} || exit 4
+useradd -m -u ${OPERATOR_UID} -r ${BUMBLEBEE_LX_USERNAME} -g ${BUMBLEBEE_LX_GROUPNAME} || exit 4
 
 echo "${BUMBLEBEE_LX_USERNAME} ALL=(root) NOPASSWD:ALL" > /etc/sudoers.d/${BUMBLEBEE_LX_USERNAME} || exit 5
 
@@ -73,6 +73,7 @@ echo " [+++ >>] Newly created linux user test script [./hello.operator.user.sh] 
 echo '----------------------------------------'
 cat ./hello.operator.user.sh
 echo '----------------------------------------'
+chmod +x ./hello.operator.user.sh
 sudo -u ${BUMBLEBEE_LX_USERNAME} ./hello.operator.user.sh
 # rm -f ./hello.operator.user.sh
 echo '----------------------------------------'
