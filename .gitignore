@@ -1,3 +1,5 @@
 # runtime generated files n folders
 secret-manager/
 ide.secrets.vault
+.env
+.env.previous
