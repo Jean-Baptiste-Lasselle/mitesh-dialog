@@ -42,7 +42,7 @@ touch $(pwd)/secret-manager/gitservice.api.token
 
 echo ""
 echo "DEBUG POINT JBL "
-docker-compose -f docker-compose.ide.yml up -d
+docker-compose -f docker-compose.ide.yml up -d secret_manager
 exit 0
 
 docker-compose -f docker-compose.ide.yml build

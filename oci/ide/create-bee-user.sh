@@ -1,20 +1,6 @@
 #/bin/bash
 
-if [ "$(whoami)" == "root" ]; then
-  echo "running [$0] as root"
-else
-  echo "you must run [$0] as root"
-  exit 2
-fi;
-
-if [ "$(whoami)" == "root" ]; then
-  echo "running [$0] as root"
-else
-  echo "you must run [$0] as root"
-  exit 2
-fi;
-
-
+echo "you must run [$0] as root"
 
 
 
@@ -23,26 +9,46 @@ echo "VERIF OPERATOR_GID=[${OPERATOR_GID}] "
 echo "VERIF BUMBLEBEE_LX_USERNAME=[${BUMBLEBEE_LX_USERNAME}] "
 echo "VERIF BUMBLEBEE_LX_GROUPNAME=[${BUMBLEBEE_LX_GROUPNAME}] "
 
-apk add --no-cache shadow sudo && \
-    if [ -z "`getent group $OPERATOR_GID`" ]; then \
-      addgroup -S -g ${OPERATOR_GID} ${BUMBLEBEE_LX_GROUPNAME}; \
-    else \
-      groupmod -n ${BUMBLEBEE_LX_GROUPNAME} `getent group $OPERATOR_GID | cut -d: -f1`; \
-    fi && \
-    if [ -z "`getent passwd $OPERATOR_UID`" ]; then \
-      # users default shell will be bash, because I previously installed it in my alpine image
-      adduser -S -u $OPERATOR_UID -G ${BUMBLEBEE_LX_GROUPNAME} -s /bin/bash ${BUMBLEBEE_LX_USERNAME}; \
-    else \
-      usermod -l ${BUMBLEBEE_LX_USERNAME} -g $OPERATOR_GID -d /home/${BUMBLEBEE_LX_USERNAME} -m `getent passwd $OPERATOR_UID | cut -d: -f1`; \
-    fi && \
-    echo "${BUMBLEBEE_LX_USERNAME} ALL=(root) NOPASSWD:ALL" > /etc/sudoers.d/${BUMBLEBEE_LX_USERNAME} && \
-    chmod 0440 /etc/sudoers.d/${BUMBLEBEE_LX_USERNAME}
+# --------------------------------------------------------------- #
+# --------------------------------------------------------------- #
+# --------------------- DEBIAN BLEND ---------------------------- #
+# --------------------------------------------------------------- #
+# --------------------------------------------------------------- #
+
+groupadd -g ${OPERATOR_GID} -r ${BUMBLEBEE_LX_GROUPNAME} || exit 3
+useradd -m -u ${OPERATOR_UID} -r ${BUMBLEBEE_LX_USERNAME} -g ${BUMBLEBEE_LX_GROUPNAME} || exit 4
+
+echo "${BUMBLEBEE_LX_USERNAME} ALL=(root) NOPASSWD:ALL" > /etc/sudoers.d/${BUMBLEBEE_LX_USERNAME} || exit 5
+
+chmod 0440 /etc/sudoers.d/${BUMBLEBEE_LX_USERNAME} || exit 6
+
+
+# --------------------------------------------------------------- #
+# --------------------------------------------------------------- #
+# --------------------- ALPINE BLEND ---------------------------- #
+# --------------------------------------------------------------- #
+# --------------------------------------------------------------- #
+
+# apk add --no-cache shadow sudo && \
+#     if [ -z "`getent group $OPERATOR_GID`" ]; then \
+#       addgroup -S -g ${OPERATOR_GID} ${BUMBLEBEE_LX_GROUPNAME}; \
+#     else \
+#       groupmod -n ${BUMBLEBEE_LX_GROUPNAME} `getent group $OPERATOR_GID | cut -d: -f1`; \
+#     fi && \
+#     if [ -z "`getent passwd $OPERATOR_UID`" ]; then \
+#       # users default shell will be bash, because I previously installed it in my alpine image
+#       adduser -S -u $OPERATOR_UID -G ${BUMBLEBEE_LX_GROUPNAME} -s /bin/bash ${BUMBLEBEE_LX_USERNAME}; \
+#     else \
+#       usermod -l ${BUMBLEBEE_LX_USERNAME} -g $OPERATOR_GID -d /home/${BUMBLEBEE_LX_USERNAME} -m `getent passwd $OPERATOR_UID | cut -d: -f1`; \
+#     fi && \
+#     echo "${BUMBLEBEE_LX_USERNAME} ALL=(root) NOPASSWD:ALL" > /etc/sudoers.d/${BUMBLEBEE_LX_USERNAME} && \
+#     chmod 0440 /etc/sudoers.d/${BUMBLEBEE_LX_USERNAME}
 
 
 chown :${BUMBLEBEE_LX_GROUPNAME} -R ${BUMBLEBEE_HOME_INSIDE_CONTAINER}
 chmod a-rwx -R ${BUMBLEBEE_HOME_INSIDE_CONTAINER}
 chmod g+rw -R ${BUMBLEBEE_HOME_INSIDE_CONTAINER}
-chmod g+x -R ${BUMBLEBEE_HOME_INSIDE_CONTAINER}/*.sh
+chmod g+x ${BUMBLEBEE_HOME_INSIDE_CONTAINER}/*.sh
 # Then we will have to make executable any file. By default, no file is executable.
 
 echo '----------------------------------------'
@@ -67,8 +73,14 @@ echo " [+++ >>] Newly created linux user test script [./hello.operator.user.sh] 
 echo '----------------------------------------'
 cat ./hello.operator.user.sh
 echo '----------------------------------------'
-sudo -u ${BUMBLEBEE_LX_USERNAME} ./hello.operator.user.sh
+chown ${BUMBLEBEE_LX_USERNAME}:${BUMBLEBEE_LX_GROUPNAME} ./hello.operator.user.sh
+chmod a+rwx ./hello.operator.user.sh
+sudo ./hello.operator.user.sh
+# sudo -u ${BUMBLEBEE_LX_USERNAME} ./hello.operator.user.sh
+ls -allh ./hello.operator.user.sh
+pwd
 # rm -f ./hello.operator.user.sh
+
 echo '----------------------------------------'
 
 # echo ''
