@@ -119,6 +119,7 @@ export GIT_SSH_COMMAND=$BUMBLEBEE_GIT_SSH_COMMAND
 echo "BUMBLEBEE_GIT_SSH_COMMAND=[$BUMBLEBEE_GIT_SSH_COMMAND]"
 echo "GIT_SSH_COMMAND=[$GIT_SSH_COMMAND]"
 
-echo "End of IAAC Cycle initialisation, just BEFORE Pipeline Step execution takes place into workspace."
+echo "End of Git initialisation, just BEFORE secret management tasks begin"
+
 pwd
 ls -allh $BUMBLEBEE_WORKSPACE_INSIDE_CONTAINER
