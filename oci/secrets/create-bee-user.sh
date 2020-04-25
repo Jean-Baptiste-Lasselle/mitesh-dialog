@@ -73,7 +73,8 @@ echo " [+++ >>] Newly created linux user test script [./hello.operator.user.sh] 
 echo '----------------------------------------'
 cat ./hello.operator.user.sh
 echo '----------------------------------------'
-chmod +x ./hello.operator.user.sh
+chown ${BUMBLEBEE_LX_USERNAME}:${BUMBLEBEE_LX_GROUPNAME} ./hello.operator.user.sh
+chmod a+rwx ./hello.operator.user.sh
 sudo -u ${BUMBLEBEE_LX_USERNAME} ./hello.operator.user.sh
 # rm -f ./hello.operator.user.sh
 echo '----------------------------------------'

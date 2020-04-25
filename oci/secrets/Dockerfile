@@ -52,6 +52,7 @@ COPY start.sh ${BUMBLEBEE_HOME_INSIDE_CONTAINER}
 
 RUN ${BUMBLEBEE_HOME_INSIDE_CONTAINER}/create-bee-user.sh
 
+
 # -----
 # CREATE BEE USER
 # -----
