@@ -4,10 +4,40 @@ services:
   # Volatile IDE Workspace :
   # should support hot reloading
   hot_ide_workspace:
-    container_name: "apm_build_from_src"
+    container_name: "pegasus_ide"
     image: pegasus-devops.io/ide:0.0.1
     build:
       context: oci/ide/
+      args:
+        # + ...
+        - VERSION_KUBECTL=${VERSION_KUBECTL}
+        - VERSION_HELM=${VERSION_HELM}
+    environment:
+      # + ...
+      - BBBBB=${DDDDD}
+    # ---------------------------------------------
+    # [docker [run|exec] -it ...]
+    # stdin
+    stdin_open:       true
+    # stdout
+    tty:              true
+    # ---------------------------------------------
+    # ports:
+      # - 7999:8085/tcp
+    # ---------------------------------------------
+    volumes:
+      - $PWD/:/bee/.workspace:rw
+      - $PWD/.bee/.secrets:/bee/.secrets:rw
+    networks:
+      - ide_pipeline_net
+    restart: always
+    # depends_on:
+      # - xxx
+  secret_manager:
+    container_name: "secretmanager"
+    image: pegasus-devops.io/ide:0.0.1
+    build:
+      context: oci/secrets/
       args:
         # + ...
         - VERSION_KUBECTL=${VERSION_KUBECTL}
@@ -37,3 +67,11 @@ services:
 networks:
   ide_pipeline_net:
     driver: bridge
+
+volumes:
+  secrets:
+    driver: local
+    driver_opts:
+      type: "none"
+      o: "bind,rw"
+      device: "/mnt/workspace/portus/secrets"
