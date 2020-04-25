@@ -16,8 +16,7 @@ ${BUMBLEBEE_HOME_INSIDE_CONTAINER}/init-git.sh
 
 git config --list
 
-sudo chmod +x ${BUMBLEBEE_HOME_INSIDE_CONTAINER}/gitlab-register-ssh.sh
-${BUMBLEBEE_HOME_INSIDE_CONTAINER}/gitlab-register-ssh.sh
+
 
 sleep infinity
 exit 0
