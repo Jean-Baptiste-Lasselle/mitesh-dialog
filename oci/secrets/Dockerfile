@@ -15,7 +15,10 @@ ARG BUMBLEBEE_LX_GROUPNAME=bumblebee
 ARG BUMBLEBEE_LX_USERNAME=beeio
 ARG BEE_GIT_SSH_COMMAND='ssh -i /bee/.secrets/.ssh/beeid_rsa'
 ENV BEE_GIT_SSH_COMMAND=${BEE_GIT_SSH_COMMAND}
+# ARG BUMBLEBEE_SSH_PRIVATE_KEY_FULLPATH="/bee/.secrets/.ssh/beeid_rsa"
+ARG BUMBLEBEE_SSH_PRIVATE_KEY_FILENAME="beeid_rsa"
 
+ENV BUMBLEBEE_SSH_PRIVATE_KEY_FILENAME=${BUMBLEBEE_SSH_PRIVATE_KEY_FILENAME}
 
 ARG DEPENDENCY_LIST="git git-flow less curl openssh-server openssh-client tree"
 RUN apt-get update -y && apt-get install -y ${DEPENDENCY_LIST}
