@@ -1,5 +1,10 @@
 FROM debian
 
+LABEL maintainer="Jean-Baptiste-Lasselle <jean.baptiste.lasselle.pegasus@gmail.com>"
+LABEL author="Jean-Baptiste-Lasselle <jean.baptiste.lasselle.pegasus@gmail.com>"
+LABEL build="0.0.0.0.0.0.0.0"
+LABEL commitid="0.0.0.0.0.0.0.0"
+LABEL daymood="firefox https://www.youtube.com/watch?v=fBM3nb-3iFs"
 
 ARG BUMBLEBEE_HOME_INSIDE_CONTAINER=/bee
 
@@ -26,13 +31,15 @@ RUN mkdir -p /bee/.workspace
 # Where the Gitlab API token will be expected, with file name 'gitservice.api.token' and full path /bee/.topsecret/gitservice.api.token
 RUN mkdir -p /bee/.topsecret/
 
-
+WORKDIR ${BUMBLEBEE_HOME_INSIDE_CONTAINER}
 # -----
 # INSTALLING EXTERNAL FILES
 # -----
 COPY create-bee-user.sh ${BUMBLEBEE_HOME_INSIDE_CONTAINER}
 # [init-git.sh] : executed at container runtime
 COPY init-git.sh ${BUMBLEBEE_HOME_INSIDE_CONTAINER}
+
+RUN ${BUMBLEBEE_HOME_INSIDE_CONTAINER}/create-bee-user.sh
 
 # -----
 # CREATE BEE USER
