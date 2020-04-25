@@ -23,10 +23,17 @@
 # --
 # curl -H "Authorization: token OAUTH-TOKEN" https://api.github.com
 # --
+export PIPELINE_GIT_SERVICE_PROVIDER_HOSTNAME=gitlab.com
 export GITHUB_PERSONAL_ACCESS_TOKEN=38b906742101991cdbf1e61f7b59df670230b772
 export GITHUB_PERSONAL_ACCESS_TOKEN=38b906742101991cdbf1e61f7b59df670230b772
 export GITHUB_PERSONAL_ACCESS_TOKEN=38b906742101991cdbf1e61f7b59df670230b772
+if ! [ -f /bee/.topsecret/${TOPSECRET_FILE_NAME} ]; then
+  echo "Bee ${PIPELINE_GIT_SERVICE_PROVIDER_HOSTNAME} API TOKEN  Top secret was not found where expected at [/bee/.topsecret/${TOPSECRET_FILE_NAME}]"
+  echo "Bee needs tohat token to work for you"
+  exit 7
+fi;
 
+export GITHUB_PERSONAL_ACCESS_TOKEN=$(/bee/.topsecret/${TOPSECRET_FILE_NAME})
 # - Just checks if Github recognizes me :
 curl -H "Authorization: token $GITHUB_PERSONAL_ACCESS_TOKEN" https://api.github.com/user
 # - Now listing current public SSH Keys :
