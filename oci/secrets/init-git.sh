@@ -8,18 +8,6 @@
 
 # set -e
 
-# BUMBLEBEE_HOME_INSIDE_CONTAINER/secrets/.ssh  is the secrets home...
-mkdir -p $BUMBLEBEE_HOME_INSIDE_CONTAINER/.secrets/.ssh
-chmod 700 $BUMBLEBEE_HOME_INSIDE_CONTAINER/.secrets/.ssh
-
-# - generating the key
-chmod +x $BUMBLEBEE_HOME_INSIDE_CONTAINER/generer-paire-de-clefs-ssh-robot.sh
-$BUMBLEBEE_HOME_INSIDE_CONTAINER/generer-paire-de-clefs-ssh-robot.sh $BUMBLEBEE_HOME_INSIDE_CONTAINER/.secrets/.ssh ${BUMBLEBEE_LX_USERNAME}
-
-# - registering the key to your Git service user account
-sudo chmod +x ${BUMBLEBEE_HOME_INSIDE_CONTAINER}/gitlab-register-ssh.sh
-${BUMBLEBEE_HOME_INSIDE_CONTAINER}/gitlab-register-ssh.sh
-
 export BUMBLEBEE_SSH_PUBLIC_KEY_FILENAME="${BUMBLEBEE_SSH_PRIVATE_KEY_FILENAME}.pub"
 # chmod 644 /root/.ssh/id_rsa.pub
 chmod 644 $BUMBLEBEE_HOME_INSIDE_CONTAINER/.secrets/.ssh/$BUMBLEBEE_SSH_PUBLIC_KEY_FILENAME
