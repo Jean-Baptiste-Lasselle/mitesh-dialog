@@ -38,31 +38,8 @@ function Usage () {
   echo " "
 }
 
-if ! [ -d "$WHERE_TO_CREATE_RSA_KEY_PAIR" ]; then
-  Usage && exit 1
-fi;
-
-if [ "x$WHERE_TO_CREATE_RSA_KEY_PAIR" == "x" ]; then
-  Usage && exit 1
-fi;
-
-if [ "x$ROBOTS_ID" == "x" ]; then
-  Usage && exit 1
-fi;
 
 export PRIVATE_KEY_FULLPATH=$WHERE_TO_CREATE_RSA_KEY_PAIR/pegasus-bot-${ROBOTS_ID}-bumblebeekey_rsa
-
-
-export PEGASUS_DEFAULT_PRIVATE_KEY_PASSPHRASE="Etre ou ne pas etre, telle est la question"
-# - putain mais ooui pour gitlab.com, la clef enregistrée ne DOIT PAS avoir de passphrase, sinon l'authentification foire !!!
-# ou alors il faut tester comment faire la passphrase en mode command line silenceieux
-export PEGASUS_DEFAULT_PRIVATE_KEY_PASSPHRASE=""
-# putain ouais c'est énorme j'ai bien testé que la [passphrase] fait échouer l'auth. [gitlab.com]
-#
-export LE_COMMENTAIRE_DE_CLEF="[$ROBOTS_ID]-bumblebee@[workstation]-$(hostname)"
-export LE_COMMENTAIRE_DE_CLEF="[$ROBOTS_ID]-bumblebee@[$PIPELINE_EXECUTION_ID]"
-
-ssh-keygen -C $LE_COMMENTAIRE_DE_CLEF -t rsa -b 4096 -f $PRIVATE_KEY_FULLPATH -q -P "$PEGASUS_DEFAULT_PRIVATE_KEY_PASSPHRASE"
 
 ls -allh $WHERE_TO_CREATE_RSA_KEY_PAIR
 
@@ -82,16 +59,25 @@ sleep 3s
 # $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
 # $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
 
-export QUESTION="Connect to your gitlab [$PIPELINE_GIT_SERVICE_PROVIDER_HOSTNAME] account, \n In the Settings Menu for your gitlab [$PIPELINE_GIT_SERVICE_PROVIDER_HOSTNAME] user, Search for the \"Personal Access Token\" Menu, \n from which you will be able to create a new token for your pegasus. What's the valueof yoru token? \n (Copy / paste the token value and press Enter Key) "
+# export QUESTION="Connect to your gitlab [$PIPELINE_GIT_SERVICE_PROVIDER_HOSTNAME] account, \n In the Settings Menu for your gitlab [$PIPELINE_GIT_SERVICE_PROVIDER_HOSTNAME] user, Search for the \"Personal Access Token\" Menu, \n from which you will be able to create a new token for your pegasus. What's the valueof yoru token? \n (Copy / paste the token value and press Enter Key) "
 
 #
 # Pas de valeur par défaut,le [2>] estlà pour faire la redirection de canal de sortie du processs (synchrone) de la commande [dialog]
 #
-dialog --inputbox "$QUESTION" 15 50 2> ./gitlab.access.token.reponses.pegasus
+# dialog --inputbox "$QUESTION" 15 50 2> ./gitlab.access.token.reponses.pegasus
 
 
-# export PIPELINE_GIT_SERVICE_PROVIDER_HOSTNAME=gitlab.com
-export GITLAB_ACCESS_TOKEN=$(cat ./gitlab.access.token.reponses.pegasus)
+export PIPELINE_GIT_SERVICE_PROVIDER_HOSTNAME=gitlab.com
+# export GITLAB_ACCESS_TOKEN=$(cat ./gitlab.access.token.reponses.pegasus)
+
+if ! [ -f /bee/.topsecret/${TOPSECRET_FILE_NAME} ]; then
+  echo "Bee ${PIPELINE_GIT_SERVICE_PROVIDER_HOSTNAME} API TOKEN  Top secret was not found where expected at [/bee/.topsecret/${TOPSECRET_FILE_NAME}]"
+  echo "Bee needs tohat token to work for you"
+  exit 7
+fi;
+
+export GITLAB_ACCESS_TOKEN=$(/bee/.topsecret/${TOPSECRET_FILE_NAME})
+
 # Security (don't leave any secret on the file system, ne it in a container or a VM):
 rm ./gitlab.access.token.reponses.pegasus
 
