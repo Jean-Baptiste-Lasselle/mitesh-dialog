@@ -22,6 +22,7 @@ ENV BUMBLEBEE_SSH_PRIVATE_KEY_FILENAME=${BUMBLEBEE_SSH_PRIVATE_KEY_FILENAME}
 
 # ARG DEPENDENCY_LIST="git git-flow less curl openssh-server openssh-client tree dialog shadow sudo"
 ARG DEPENDENCY_LIST="git git-flow less curl openssh-server openssh-client tree dialog sudo"
+RUN getent --version
 
 RUN apt-get update -y && apt-get install -y ${DEPENDENCY_LIST}
 

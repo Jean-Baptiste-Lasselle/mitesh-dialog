@@ -32,22 +32,12 @@ echo "VERIF BUMBLEBEE_LX_GROUPNAME=[${BUMBLEBEE_LX_GROUPNAME}] "
 # --------------------------------------------------------------- #
 # --------------------------------------------------------------- #
 
-groupadd -r mongodb && useradd -r -g mongodb ${BUMBLEBEE_LX_GROUPNAME}
+groupadd -g ${OPERATOR_GID} -r ${BUMBLEBEE_LX_GROUPNAME} || exit 3
+useradd -m -u ${OPERATOR_UID} -r -g ${BUMBLEBEE_LX_USERNAME} ${BUMBLEBEE_LX_GROUPNAME} || exit 4
 
-apk add --no-cache shadow sudo && \
-    if [ -z "`getent group $OPERATOR_GID`" ]; then \
-      addgroup -S -g ${OPERATOR_GID} ${BUMBLEBEE_LX_GROUPNAME}; \
-    else \
-      groupmod -n ${BUMBLEBEE_LX_GROUPNAME} `getent group $OPERATOR_GID | cut -d: -f1`; \
-    fi && \
-    if [ -z "`getent passwd $OPERATOR_UID`" ]; then \
-      # users default shell will be bash, because I previously installed it in my alpine image
-      adduser -S -u $OPERATOR_UID -G ${BUMBLEBEE_LX_GROUPNAME} -s /bin/bash ${BUMBLEBEE_LX_USERNAME}; \
-    else \
-      usermod -l ${BUMBLEBEE_LX_USERNAME} -g $OPERATOR_GID -d /home/${BUMBLEBEE_LX_USERNAME} -m `getent passwd $OPERATOR_UID | cut -d: -f1`; \
-    fi && \
-    echo "${BUMBLEBEE_LX_USERNAME} ALL=(root) NOPASSWD:ALL" > /etc/sudoers.d/${BUMBLEBEE_LX_USERNAME} && \
-    chmod 0440 /etc/sudoers.d/${BUMBLEBEE_LX_USERNAME}
+echo "${BUMBLEBEE_LX_USERNAME} ALL=(root) NOPASSWD:ALL" > /etc/sudoers.d/${BUMBLEBEE_LX_USERNAME} || exit 5
+
+chmod 0440 /etc/sudoers.d/${BUMBLEBEE_LX_USERNAME} || exit 6
 
 
 # --------------------------------------------------------------- #
