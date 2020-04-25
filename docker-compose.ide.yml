@@ -19,6 +19,7 @@ services:
       # what is going to be used to git config --global user.signingkey ${GIT_PGP_SIGNING_KEY}
       - GIT_GPG_SIGN=false
       - GIT_PGP_SIGNING_KEY=7B19A8E1574C2883
+      - PIPELINE_GIT_SERVICE_PROVIDER_HOSTNAME=gitlab.com
     # ---------------------------------------------
     # [docker [run|exec] -it ...]
     # stdin

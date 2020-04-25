@@ -1,9 +1,9 @@
 #!/bin/bash
 
 
-echo "git user configuration completed"
 
-echo "not implemented" && exit 1
+
+# echo "not implemented" && exit 1
 
 
 #!/bin/bash
@@ -55,6 +55,7 @@ else
      echo "using PGP key [${GIT_PGP_SIGNING_KEY}] "
   fi;
 fi;
+echo "git user configuration completed"
 # ----
 # I do not need a signing key, bevcause it's just about
 # cloning the ansible playbook, and running it, no way

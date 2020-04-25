@@ -21,7 +21,7 @@ ENV BEE_GIT_SSH_COMMAND=${BEE_GIT_SSH_COMMAND}
 ARG BUMBLEBEE_SSH_PRIVATE_KEY_FILENAME="beeid_rsa"
 
 ENV BUMBLEBEE_SSH_PRIVATE_KEY_FILENAME=${BUMBLEBEE_SSH_PRIVATE_KEY_FILENAME}
-
+ENV PIPELINE_GIT_SERVICE_PROVIDER_HOSTNAME=${PIPELINE_GIT_SERVICE_PROVIDER_HOSTNAME:-'gitlab.com'}
 # ARG DEPENDENCY_LIST="git git-flow less curl openssh-server openssh-client tree dialog shadow sudo"
 ARG DEPENDENCY_LIST="git git-flow less curl openssh-server openssh-client tree dialog sudo vim"
 RUN getent --version
