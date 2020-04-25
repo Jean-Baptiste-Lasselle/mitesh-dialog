@@ -13,7 +13,7 @@ cat /bee/.topsecret/${TOPSECRET_FILE_NAME}
 
 git config --list
 
+./init-git.sh
 
 sleep infinity
 exit 0
-./init-git.sh

@@ -36,6 +36,9 @@ function Usage () {
   echo "    FOLDER_WHERE_TO_CREATE_RSA_KEY_PAIR    WHERE_TO_CREATE_RSA_KEY_PAIR=[$WHERE_TO_CREATE_RSA_KEY_PAIR] "
   echo "    ROBOTS_ID                              ROBOTS_ID=[$ROBOTS_ID] "
   echo " "
+  echo " Last, and required to run [$0], is that you have to set the [BUMBLEBEE_SSH_PRIVATE_KEY_FILENAME] "
+  echo " Environement Varaible, to the filename of the private key you want to generate"
+  echo ""
 }
 
 if ! [ -d "$WHERE_TO_CREATE_RSA_KEY_PAIR" ]; then
@@ -50,7 +53,17 @@ if [ "x$ROBOTS_ID" == "x" ]; then
   Usage && exit 1
 fi;
 
-export PRIVATE_KEY_FULLPATH=$WHERE_TO_CREATE_RSA_KEY_PAIR/pegasus-bot-${ROBOTS_ID}-bumblebeekey_rsa
+
+if [ "x$BUMBLEBEE_SSH_PRIVATE_KEY_FILENAME" == "x" ]; then
+  echo " [BUMBLEBEE_SSH_PRIVATE_KEY_FILENAME] must be set"
+  Usage && exit 1
+fi;
+
+
+
+
+export BUMBLEBEE_SSH_PUBLIC_KEY_FILENAME="${BUMBLEBEE_SSH_PRIVATE_KEY_FILENAME}.pub"
+export PRIVATE_KEY_FULLPATH=$WHERE_TO_CREATE_RSA_KEY_PAIR/${BUMBLEBEE_SSH_PRIVATE_KEY_FILENAME}
 
 
 export PEGASUS_DEFAULT_PRIVATE_KEY_PASSPHRASE="Etre ou ne pas etre, telle est la question"

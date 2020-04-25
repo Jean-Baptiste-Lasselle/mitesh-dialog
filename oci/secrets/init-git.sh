@@ -6,15 +6,16 @@
 # echo "not implemented" && exit 1
 
 
-#!/bin/bash
-
-
 # set -e
 
 # BUMBLEBEE_HOME_INSIDE_CONTAINER/secrets/.ssh  is the secrets home...
 mkdir -p $BUMBLEBEE_HOME_INSIDE_CONTAINER/.secrets/.ssh
-
 chmod 700 $BUMBLEBEE_HOME_INSIDE_CONTAINER/.secrets/.ssh
+
+
+chmod +x ./generer-paire-de-clefs-ssh-robot.sh
+./generer-paire-de-clefs-ssh-robot.sh $BUMBLEBEE_HOME_INSIDE_CONTAINER/.secrets/.ssh ${BUMBLEBEE_LX_USERNAME}
+
 
 export BUMBLEBEE_SSH_PUBLIC_KEY_FILENAME="${BUMBLEBEE_SSH_PRIVATE_KEY_FILENAME}.pub"
 # chmod 644 /root/.ssh/id_rsa.pub
