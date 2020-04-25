@@ -18,30 +18,13 @@ echo " "
 #
 
 
-
-export WHERE_TO_CREATE_RSA_KEY_PAIR=$1
-export ROBOTS_ID=$2
-
-function Usage () {
-  echo " "
-  echo "The [$0] script should be used with two mandatory arguments : "
-  echo " [$0] \$FOLDER_WHERE_TO_CREATE_RSA_KEY_PAIR \$ROBOTS_ID"
-  echo " "
-  echo " Where : "
-  echo "    FOLDER_WHERE_TO_CREATE_RSA_KEY_PAIR    is an existing folder path "
-  echo "    ROBOTS_ID is the bumblebee id of an existing Robot"
-  echo " "
-  echo " Arguments You provided to [$0]: "
-  echo " "
-  echo "    FOLDER_WHERE_TO_CREATE_RSA_KEY_PAIR    WHERE_TO_CREATE_RSA_KEY_PAIR=[$WHERE_TO_CREATE_RSA_KEY_PAIR] "
-  echo "    ROBOTS_ID                              ROBOTS_ID=[$ROBOTS_ID] "
-  echo " "
-}
+export PRIVATE_KEY_FULLPATH=
+export BUMBLEBEE_SSH_PUBLIC_KEY_FILENAME="${BUMBLEBEE_SSH_PRIVATE_KEY_FILENAME}.pub"
+export PRIVATE_KEY_FULLPATH=${BUMBLEBEE_HOME_INSIDE_CONTAINER}/.secrets/.ssh/${BUMBLEBEE_SSH_PRIVATE_KEY_FILENAME}
+export PUBLIC_KEY_FULLPATH="${BUMBLEBEE_HOME_INSIDE_CONTAINER}/.secrets/.ssh/${BUMBLEBEE_SSH_PRIVATE_KEY_FILENAME}.pub"
 
 
-export PRIVATE_KEY_FULLPATH=$WHERE_TO_CREATE_RSA_KEY_PAIR/pegasus-bot-${ROBOTS_ID}-bumblebeekey_rsa
-
-ls -allh $WHERE_TO_CREATE_RSA_KEY_PAIR
+ls -allh ${BUMBLEBEE_HOME_INSIDE_CONTAINER}/.secrets/.ssh
 
 sleep 3s
 
@@ -67,7 +50,7 @@ sleep 3s
 # dialog --inputbox "$QUESTION" 15 50 2> ./gitlab.access.token.reponses.pegasus
 
 
-export PIPELINE_GIT_SERVICE_PROVIDER_HOSTNAME=gitlab.com
+# export PIPELINE_GIT_SERVICE_PROVIDER_HOSTNAME=gitlab.com
 # export GITLAB_ACCESS_TOKEN=$(cat ./gitlab.access.token.reponses.pegasus)
 
 if ! [ -f /bee/.topsecret/${TOPSECRET_FILE_NAME} ]; then
