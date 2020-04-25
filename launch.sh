@@ -22,7 +22,7 @@ cp ./.env.template ./.env
 # ---- ---- ---- ---- ---- ---- ---- ---- ---- #
 
 # ----
-# Contianer User UID GID mapping to host 
+# Contianer User UID GID mapping to host
 # Setting linux user uid and gid inside container
 sed -i "s#OPERATOR_UID_JINJA2_VAR#$(id -u)#g" ./.env
 sed -i "s#OPERATOR_GID_JINJA2_VAR#$(id -g)#g" ./.env
@@ -31,6 +31,12 @@ sed -i "s#OPERATOR_GID_JINJA2_VAR#$(id -g)#g" ./.env
 # Setting secrets home outside container
 sed -i "s#SECRETS_HOME_JINJA2_VAR#${SECRETS_HOME}#g"
 
+
+
+docker system prune -f --all && docker-compose  -f ./docker-compose.ide.yml build secret_manager
+echo ""
+echo "DEBUG POINT JBL "
+exit 0
 
 echo 'dummy value for the GitLab API Token' > $(pwd)/secret-manager/gitservice.api.token
 
