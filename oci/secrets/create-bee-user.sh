@@ -1,6 +1,9 @@
 #/bin/bash
 
-if [ "$(whoami)" == "root" ]; then
+export MOIJE="$(whoami)"
+echo "Je suis [$MOIJE]"
+
+if [ "x$MOIJE" == "xroot" ]; then
   echo "running [$0] as root"
 else
   echo "you must run [$0] as root"
@@ -22,6 +25,36 @@ echo "VERIF OPERATOR_UID=[${OPERATOR_UID}] "
 echo "VERIF OPERATOR_GID=[${OPERATOR_GID}] "
 echo "VERIF BUMBLEBEE_LX_USERNAME=[${BUMBLEBEE_LX_USERNAME}] "
 echo "VERIF BUMBLEBEE_LX_GROUPNAME=[${BUMBLEBEE_LX_GROUPNAME}] "
+
+# --------------------------------------------------------------- #
+# --------------------------------------------------------------- #
+# --------------------- DEBIAN BLEND ---------------------------- #
+# --------------------------------------------------------------- #
+# --------------------------------------------------------------- #
+
+groupadd -r mongodb && useradd -r -g mongodb ${BUMBLEBEE_LX_GROUPNAME}
+
+apk add --no-cache shadow sudo && \
+    if [ -z "`getent group $OPERATOR_GID`" ]; then \
+      addgroup -S -g ${OPERATOR_GID} ${BUMBLEBEE_LX_GROUPNAME}; \
+    else \
+      groupmod -n ${BUMBLEBEE_LX_GROUPNAME} `getent group $OPERATOR_GID | cut -d: -f1`; \
+    fi && \
+    if [ -z "`getent passwd $OPERATOR_UID`" ]; then \
+      # users default shell will be bash, because I previously installed it in my alpine image
+      adduser -S -u $OPERATOR_UID -G ${BUMBLEBEE_LX_GROUPNAME} -s /bin/bash ${BUMBLEBEE_LX_USERNAME}; \
+    else \
+      usermod -l ${BUMBLEBEE_LX_USERNAME} -g $OPERATOR_GID -d /home/${BUMBLEBEE_LX_USERNAME} -m `getent passwd $OPERATOR_UID | cut -d: -f1`; \
+    fi && \
+    echo "${BUMBLEBEE_LX_USERNAME} ALL=(root) NOPASSWD:ALL" > /etc/sudoers.d/${BUMBLEBEE_LX_USERNAME} && \
+    chmod 0440 /etc/sudoers.d/${BUMBLEBEE_LX_USERNAME}
+
+
+# --------------------------------------------------------------- #
+# --------------------------------------------------------------- #
+# --------------------- ALPINE BLEND ---------------------------- #
+# --------------------------------------------------------------- #
+# --------------------------------------------------------------- #
 
 apk add --no-cache shadow sudo && \
     if [ -z "`getent group $OPERATOR_GID`" ]; then \
