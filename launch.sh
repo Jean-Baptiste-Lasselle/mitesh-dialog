@@ -38,6 +38,7 @@ echo ""
 echo "DEBUG POINT JBL "
 exit 0
 
+mkdir -p $(pwd)/secret-manager/
 echo 'dummy value for the GitLab API Token' > $(pwd)/secret-manager/gitservice.api.token
 
 docker-compose -f docker-compose.ide.yml build

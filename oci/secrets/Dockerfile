@@ -49,8 +49,8 @@ COPY create-bee-user.sh ${BUMBLEBEE_HOME_INSIDE_CONTAINER}
 # [init-git.sh] : executed at container runtime
 COPY init-git.sh ${BUMBLEBEE_HOME_INSIDE_CONTAINER}
 COPY start.sh ${BUMBLEBEE_HOME_INSIDE_CONTAINER}
-
-RUN ${BUMBLEBEE_HOME_INSIDE_CONTAINER}/create-bee-user.sh
+RUN cd ${BUMBLEBEE_HOME_INSIDE_CONTAINER} && ${BUMBLEBEE_HOME_INSIDE_CONTAINER}/create-bee-user.sh
+RUN chmod +x ${BUMBLEBEE_HOME_INSIDE_CONTAINER}/*.sh
 
 
 # -----
@@ -63,4 +63,5 @@ VOLUME /bee/.secrets
 
 WORKDIR /bee/.workspace
 
-CMD ["/bin/bash"]
+# CMD ["/bin/bash"]
+CMD ["/bee/start.sh"]

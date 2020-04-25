@@ -48,7 +48,7 @@ chmod 0440 /etc/sudoers.d/${BUMBLEBEE_LX_USERNAME} || exit 6
 chown :${BUMBLEBEE_LX_GROUPNAME} -R ${BUMBLEBEE_HOME_INSIDE_CONTAINER}
 chmod a-rwx -R ${BUMBLEBEE_HOME_INSIDE_CONTAINER}
 chmod g+rw -R ${BUMBLEBEE_HOME_INSIDE_CONTAINER}
-chmod g+x -R ${BUMBLEBEE_HOME_INSIDE_CONTAINER}/*.sh
+chmod g+x ${BUMBLEBEE_HOME_INSIDE_CONTAINER}/*.sh
 # Then we will have to make executable any file. By default, no file is executable.
 
 echo '----------------------------------------'
@@ -75,8 +75,12 @@ cat ./hello.operator.user.sh
 echo '----------------------------------------'
 chown ${BUMBLEBEE_LX_USERNAME}:${BUMBLEBEE_LX_GROUPNAME} ./hello.operator.user.sh
 chmod a+rwx ./hello.operator.user.sh
-sudo -u ${BUMBLEBEE_LX_USERNAME} ./hello.operator.user.sh
+sudo ./hello.operator.user.sh
+# sudo -u ${BUMBLEBEE_LX_USERNAME} ./hello.operator.user.sh
+ls -allh ./hello.operator.user.sh
+pwd
 # rm -f ./hello.operator.user.sh
+
 echo '----------------------------------------'
 
 # echo ''
