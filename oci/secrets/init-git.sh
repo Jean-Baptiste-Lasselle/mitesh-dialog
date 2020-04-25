@@ -90,7 +90,7 @@ echo " -------------------------------- "
 # ----------------------------------------
 # Je ne sais pas pourquoi, mais pour ce
 # conteneur, il faut que la paire de
-# clef publique / clef privée
+# clef publique / clef privée soit forcément au chemin [~/.ssh/id_rsa] [~/.ssh/id_rsa.pub]
 # ----------------------------------------
 mkdir -p ~/.ssh
 cp $BUMBLEBEE_HOME_INSIDE_CONTAINER/.secrets/.ssh/$BUMBLEBEE_SSH_PUBLIC_KEY_FILENAME ~/.ssh/id_rsa.pub

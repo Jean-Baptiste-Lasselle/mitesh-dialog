@@ -20,7 +20,7 @@ ARG BUMBLEBEE_SSH_PRIVATE_KEY_FILENAME="beeid_rsa"
 
 ENV BUMBLEBEE_SSH_PRIVATE_KEY_FILENAME=${BUMBLEBEE_SSH_PRIVATE_KEY_FILENAME}
 
-ARG DEPENDENCY_LIST="git git-flow less curl openssh-server openssh-client tree"
+ARG DEPENDENCY_LIST="git git-flow less curl openssh-server openssh-client tree dialog"
 RUN apt-get update -y && apt-get install -y ${DEPENDENCY_LIST}
 
 # -----
@@ -45,6 +45,7 @@ WORKDIR ${BUMBLEBEE_HOME_INSIDE_CONTAINER}
 COPY create-bee-user.sh ${BUMBLEBEE_HOME_INSIDE_CONTAINER}
 # [init-git.sh] : executed at container runtime
 COPY init-git.sh ${BUMBLEBEE_HOME_INSIDE_CONTAINER}
+COPY start.sh ${BUMBLEBEE_HOME_INSIDE_CONTAINER}
 
 RUN ${BUMBLEBEE_HOME_INSIDE_CONTAINER}/create-bee-user.sh
 

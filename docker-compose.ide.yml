@@ -35,8 +35,8 @@ services:
     networks:
       - ide_pipeline_net
     restart: always
-    # depends_on:
-      # - xxx
+    depends_on:
+      - secret_manager
   secret_manager:
     container_name: "secretmanager"
     image: pegasus-devops.io/secretmanager:0.0.1
