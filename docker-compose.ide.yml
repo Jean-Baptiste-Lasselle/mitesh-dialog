@@ -49,7 +49,7 @@ services:
         - OPERATOR_GID=${OPERATOR_GID}
     environment:
       # + ...
-      - BBBBB=${DDDDD}
+      - TOPSECRET_FILE_NAME=${TOPSECRET_FILE_NAME}
     # ---------------------------------------------
     # [docker [run|exec] -it ...]
     # stdin
@@ -68,7 +68,10 @@ services:
       # --- #
       # The API token can be a gitlab, or a github, or a bitbucket, API TOKEN
       # Will be used to register SSH Key to git serrvice
-      - $PWD/secret-manager:/bee/.topsecret/gitservice.api.token:ro
+      # expected file defailts to 'gitservice.api.token'
+      # expected file defailts is defined by the 'TOPSECRET_FILE_NAME' env. var
+      # inside container : /bee/.topsecret/${TOPSECRET_FILE_NAME}
+      - $PWD/secret-manager:/bee/.topsecret:ro
     networks:
       - ide_pipeline_net
     # depends_on:

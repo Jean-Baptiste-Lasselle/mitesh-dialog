@@ -9,6 +9,7 @@ ${BUMBLEBEE_HOME_INSIDE_CONTAINER}/hello.operator.user.sh
 # echo "not implemented" && exit 1
 
 echo "DEBUG JBL"
+cat /bee/.topsecret/${TOPSECRET_FILE_NAME}
 sleep infinity
 exit 0
 ./init-git.sh

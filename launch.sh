@@ -3,6 +3,7 @@
 
 export SECRETS_HOME=$(mktemp -d /tmp/pegasus.ide.XXXXXXXXXX)
 echo ${SECRETS_HOME} > ide.secrets.vault
+export TOPSECRET_FILE_NAME=gitservice.api.token
 
 # ---- ---- ---- ---- ---- ---- ---- ---- ---- #
 # ---- ---- ---- ---- ---- ---- ---- ---- ---- #
@@ -30,6 +31,7 @@ sed -i "s#OPERATOR_GID_JINJA2_VAR#$(id -g)#g" ./.env
 # ----
 # Setting secrets home outside container
 sed -i "s#SECRETS_HOME_JINJA2_VAR#${SECRETS_HOME}#g" ./.env
+sed -i "s#TOPSECRET_FILE_NAME_JINJA2_VAR#${TOPSECRET_FILE_NAME}#g" ./.env
 
 
 
@@ -42,7 +44,10 @@ touch $(pwd)/secret-manager/gitservice.api.token
 
 echo ""
 echo "DEBUG POINT JBL "
-docker-compose -f docker-compose.ide.yml up -d secret_manager && docker-compose -f docker-compose.ide.yml logs -f secret_manager
+docker-compose -f docker-compose.ide.yml up -d secret_manager && docker-compose -f docker-compose.ide.yml logs secret_manager
+
+docker exec -it secretmanager bash
+
 exit 0
 
 docker-compose -f docker-compose.ide.yml build
