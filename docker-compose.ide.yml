@@ -63,7 +63,7 @@ services:
       # --- #
       # The API token can be a gitlab, or a github, or a bitbucket, API TOKEN
       # Will be used to register SSH Key to git serrvice
-      - $PWD/secret-manager:/bee/.topsecret/gitservice.api.token
+      - $PWD/secret-manager:/bee/.topsecret/gitservice.api.token:ro
     networks:
       - ide_pipeline_net
     restart: always

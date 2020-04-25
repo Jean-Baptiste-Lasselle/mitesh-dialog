@@ -11,8 +11,8 @@ ARG BUMBLEBEE_HOME_INSIDE_CONTAINER=/bee
 ARG OPERATOR_UID=${OPERATOR_UID}
 ARG OPERATOR_GID=${OPERATOR_GID}
 
-ARG BUMBLEBEE_LX_GROUPNAME=
-ARG BUMBLEBEE_LX_USERNAME
+ARG BUMBLEBEE_LX_GROUPNAME=bumblebee
+ARG BUMBLEBEE_LX_USERNAME=beeio
 ARG BEE_GIT_SSH_COMMAND='ssh -i /bee/.secrets/.ssh/beeid_rsa'
 ENV BEE_GIT_SSH_COMMAND=${BEE_GIT_SSH_COMMAND}
 
@@ -28,7 +28,11 @@ RUN apt-get update -y && apt-get install -y ${DEPENDENCY_LIST}
 # SSH keys will be in /bee/.secrets/.ssh
 RUN mkdir -p /bee/.secrets
 RUN mkdir -p /bee/.workspace
-# Where the Gitlab API token will be expected, with file name 'gitservice.api.token' and full path /bee/.topsecret/gitservice.api.token
+# ---
+# The Secret Manager itself, has one secret. The "top" secret.
+# Where the Gitlab API token will be expected, with
+# file name 'gitservice.api.token' and full path /bee/.topsecret/gitservice.api.token
+# ---
 RUN mkdir -p /bee/.topsecret/
 
 WORKDIR ${BUMBLEBEE_HOME_INSIDE_CONTAINER}
