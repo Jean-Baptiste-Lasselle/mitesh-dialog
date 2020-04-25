@@ -18,7 +18,7 @@ if [ -f ./.env ]; then
   cp ./.env ./.env.previous
   rm ./.env
 fi;
-cp ./.env.template ./.env
+cp ./.template.env ./.env
 # ---- ---- ---- ---- ---- ---- ---- ---- ---- #
 
 # ----
@@ -33,7 +33,7 @@ sed -i "s#SECRETS_HOME_JINJA2_VAR#${SECRETS_HOME}#g"
 
 
 
-docker system prune -f --all && docker-compose  -f ./docker-compose.ide.yml build secret_manager
+docker system prune -f --all && docker-compose -f ./docker-compose.ide.yml down --rmi all && docker-compose -f ./docker-compose.ide.yml build secret_manager
 echo ""
 echo "DEBUG POINT JBL "
 exit 0
