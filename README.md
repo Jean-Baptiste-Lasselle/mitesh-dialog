@@ -1,12 +1,22 @@
-# mitesh-dialog
-Treating portus issue https://github.com/SUSE/Portus/issues/2297
+# My hot IDE
 
 
+## Run it
 
-# Just a dialog with myself
-
-* workspace :
+* Inside an empty directory, execute :
 
 ```bash
-docker run -u root --name labo -itd -v $PWD:/root/labo:rw debian bash
+# --- #
+# atom .
+# --- #
+git clone git@github.com:Jean-Baptiste-Lasselle/mitesh-dialog.git .
+git chekout feature/preparing-first-release
+atom .
+```
+
+* now, you can edit you rcode in the current directory, and to commit and push :
+
+```bash
+# Then , to commit and push :
+docker exec -it secretmanager bash -c "git config  commit.gpgsign false && git add --all && git commit -m 'ajout de la définition du conteneur hot_ide' && git push -u origin --all"
 ```
