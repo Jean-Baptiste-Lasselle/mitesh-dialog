@@ -3,9 +3,10 @@
 
 echo " "
 echo " ------------------------------------------------------------------------------------ "
-echo "This script generates an RSA SSH KeyPair for your ide bot"
+echo "  This registers the new RSA SSH KeyPair for your ide bot, to your "
 echo " ------------------------------------------------------------------------------------ "
-echo "Then it regsiters that key to your gitlab/github user, using the Gitlab / Github API token you provided at [CCCC] "
+echo "  git service provider, like github.com or gitlab.com, using "
+echo "   the Gitlab / Github API token you provided at [/bee/.topsecret/${TOPSECRET_FILE_NAME}] "
 echo " ------------------------------------------------------------------------------------ "
 echo " "
 
@@ -18,7 +19,6 @@ echo " "
 #
 
 
-export PRIVATE_KEY_FULLPATH=
 export BUMBLEBEE_SSH_PUBLIC_KEY_FILENAME="${BUMBLEBEE_SSH_PRIVATE_KEY_FILENAME}.pub"
 export PRIVATE_KEY_FULLPATH=${BUMBLEBEE_HOME_INSIDE_CONTAINER}/.secrets/.ssh/${BUMBLEBEE_SSH_PRIVATE_KEY_FILENAME}
 export PUBLIC_KEY_FULLPATH="${BUMBLEBEE_HOME_INSIDE_CONTAINER}/.secrets/.ssh/${BUMBLEBEE_SSH_PRIVATE_KEY_FILENAME}.pub"
@@ -59,7 +59,7 @@ if ! [ -f /bee/.topsecret/${TOPSECRET_FILE_NAME} ]; then
   exit 7
 fi;
 
-export GITLAB_ACCESS_TOKEN=$(/bee/.topsecret/${TOPSECRET_FILE_NAME})
+export GITLAB_ACCESS_TOKEN=$(cat /bee/.topsecret/${TOPSECRET_FILE_NAME})
 
 # Security (don't leave any secret on the file system, ne it in a container or a VM):
 rm ./gitlab.access.token.reponses.pegasus
