@@ -4,6 +4,7 @@
 export SECRETS_HOME=$(mktemp -d /tmp/pegasus.ide.XXXXXXXXXX)
 echo ${SECRETS_HOME} > ide.secrets.vault
 export TOPSECRET_FILE_NAME=gitservice.api.token
+export SSH_URI_TO_GIT_REPO=$(git remote -v | awk '{print $2}')
 
 # ---- ---- ---- ---- ---- ---- ---- ---- ---- #
 # ---- ---- ---- ---- ---- ---- ---- ---- ---- #
@@ -33,7 +34,7 @@ sed -i "s#OPERATOR_GID_JINJA2_VAR#$(id -g)#g" ./.env
 sed -i "s#SECRETS_HOME_JINJA2_VAR#${SECRETS_HOME}#g" ./.env
 sed -i "s#TOPSECRET_FILE_NAME_JINJA2_VAR#${TOPSECRET_FILE_NAME}#g" ./.env
 
-
+SSH_URI_TO_GIT_REPO=SSH_URI_TO_GIT_REPO_JINJA2_VAR
 
 docker system prune -f --all && docker-compose -f ./docker-compose.ide.yml down --rmi all && docker volume rm $(pwd|awk -F '/' '{print $NF}')_secrets
 
