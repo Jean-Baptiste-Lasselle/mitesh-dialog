@@ -72,7 +72,7 @@ services:
       # expected file defailts to 'gitservice.api.token'
       # expected file defailts is defined by the 'TOPSECRET_FILE_NAME' env. var
       # inside container : /bee/.topsecret/${TOPSECRET_FILE_NAME}
-      - $PWD/secret-manager:/bee/.topsecret:ro
+      - $PWD/secret-manager:/bee/.topsecret:rw
     networks:
       - ide_pipeline_net
     # depends_on:
