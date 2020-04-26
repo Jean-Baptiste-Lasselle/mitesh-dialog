@@ -1,20 +1,12 @@
 #!/bin/bash
 
 
-echo "git user configuration completed"
-
-echo "not implemented" && exit 1
 
 
-#!/bin/bash
+# echo "not implemented" && exit 1
 
 
 # set -e
-
-# BUMBLEBEE_HOME_INSIDE_CONTAINER/secrets/.ssh  is the secrets home...
-mkdir -p $BUMBLEBEE_HOME_INSIDE_CONTAINER/.secrets/.ssh
-
-chmod 700 $BUMBLEBEE_HOME_INSIDE_CONTAINER/.secrets/.ssh
 
 export BUMBLEBEE_SSH_PUBLIC_KEY_FILENAME="${BUMBLEBEE_SSH_PRIVATE_KEY_FILENAME}.pub"
 # chmod 644 /root/.ssh/id_rsa.pub
@@ -55,6 +47,7 @@ else
      echo "using PGP key [${GIT_PGP_SIGNING_KEY}] "
   fi;
 fi;
+echo "git user configuration completed"
 # ----
 # I do not need a signing key, bevcause it's just about
 # cloning the ansible playbook, and running it, no way

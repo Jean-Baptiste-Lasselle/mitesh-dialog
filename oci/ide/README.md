@@ -2,7 +2,7 @@
 
 ### IDE Library : the Bourne identity
 
-* cofngiuuration classique :
+* confgiuuration classique :
 
 ```bash
 export GIT_SSH_COMMAND='ssh -i ~/.perso/.ssh/cle_ssh_jbl'
