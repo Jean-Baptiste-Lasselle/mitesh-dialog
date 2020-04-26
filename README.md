@@ -6,11 +6,15 @@
 * Inside an empty directory, execute :
 
 ```bash
+export YOUR_GITLAB_TOKEN=G004GHH7llhy54
+
 # --- #
 # atom .
 # --- #
 git clone git@github.com:Jean-Baptiste-Lasselle/mitesh-dialog.git .
 git chekout feature/preparing-first-release
+echo "${YOUR_GITLAB_TOKEN}" > $(pwd)/secret-manager/${TOPSECRET_FILE_NAME}
+./launch.sh
 atom .
 ```
 

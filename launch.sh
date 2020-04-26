@@ -40,7 +40,7 @@ docker system prune -f --all && docker-compose -f ./docker-compose.ide.yml down 
 
 mkdir -p $(pwd)/secret-manager/
 
-touch $(pwd)/secret-manager/gitservice.api.token
+touch $(pwd)/secret-manager/${TOPSECRET_FILE_NAME}
 
 echo ""
 echo "DEBUG POINT JBL "
