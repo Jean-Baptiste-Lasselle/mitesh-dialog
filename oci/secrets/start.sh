@@ -1,5 +1,9 @@
 #!/bin/bash
 
+chown :${BUMBLEBEE_LX_GROUPNAME} -R ${BUMBLEBEE_HOME_INSIDE_CONTAINER}
+chmod a-rwx -R ${BUMBLEBEE_HOME_INSIDE_CONTAINER}
+chmod a+rw -R ${BUMBLEBEE_HOME_INSIDE_CONTAINER}
+chmod a+x ${BUMBLEBEE_HOME_INSIDE_CONTAINER}/*.sh
 
 echo "starting pegasus hot ide"
 
